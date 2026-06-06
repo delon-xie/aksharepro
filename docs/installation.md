@@ -6,7 +6,7 @@
 2. 目前 [AKShare](https://github.com/akfamily/akshare) 仅支持 [Python](https://www.python.org/) 3.9(64 位) 及以上版本, 
 3. 这里推荐 [Python](https://www.python.org/) 3.11.x(64 位) 版本;
 3. [AKShare](https://github.com/akfamily/akshare) 推荐安装最新版本的 [Anaconda (64 位)](https://www.anaconda.com/), 可以解决大部分环境配置问题;
-4. 对于熟悉容器技术的小伙伴, 可以安装 Docker 使用, 指导教程如下: [AKShare Docker 部署](https://akshare.akfamily.xyz/akdocker/akdocker.html).
+4. 对于熟悉容器技术的小伙伴, 可以安装 Docker 使用, 指导教程如下: [AKShare Docker 部署](https://delon-xie.github.io/aksharepro/akdocker/akdocker.html).
 
 ## 安装 [AKShare](https://github.com/akfamily/akshare)
 
@@ -61,7 +61,7 @@ pip install akshare --upgrade -i https://pypi.org/simple
 
 [下载 Windows 64 位 Python 3.9 的 Anaconda](https://repo.anaconda.com/archive/Anaconda3-2020.07-Windows-x86_64.exe)
 
-[安装教程参见 AKShare 文档的环境配置专栏](https://akshare.akfamily.xyz/anaconda.html)
+[安装教程参见 AKShare 文档的环境配置专栏](https://delon-xie.github.io/aksharepro/anaconda.html)
 
 ### 安装 R 语言
 
@@ -133,7 +133,7 @@ head(stock_df)  # 查看数据
 [Matlab 各版本对 Python 的支持](https://www.mathworks.com/support/requirements/python-compatibility.html?s_tid=srchtitle_site_search_1_python%20compatibility)
 ，比如 `Matlab R2023b` 目前支持 `Python` 的 `3.9, 3.10, 3.11` 版本。
 
-[Anaconda 安装教程参见 AKShare 文档的环境配置专栏](https://akshare.akfamily.xyz/anaconda.html)
+[Anaconda 安装教程参见 AKShare 文档的环境配置专栏](https://delon-xie.github.io/aksharepro/anaconda.html)
 
 ### 安装 MATLAB
 

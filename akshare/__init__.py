@@ -97,7 +97,7 @@ get_bond_bank
 0.1.50
 更新 akdocker.md 文件
 0.1.51
-更新官方文档: https://akshare.akfamily.xyz
+更新官方文档: https://delon-xie.github.io/aksharepro
 0.1.52
 增加量化策略和量化平台板块
 0.1.53

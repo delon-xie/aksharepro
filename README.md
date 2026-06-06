@@ -89,20 +89,20 @@ BrowserSessionManager  ← 浏览器会话管理器
 
 **一行代码，数据到手！**
 
-- 文档：[中文文档](https://akshare.akfamily.xyz/)
+- 文档：[中文文档](https://delon-xie.github.io/aksharepro/)
 
 ## 安装 / Installation
 
 ### 通用安装 / General
 
 ```shell
-pip install akshare --upgrade
+pip install aksharepro --upgrade
 ```
 
 ### 国内加速 / China
 
 ```shell
-pip install akshare -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com --upgrade
+pip install aksharepro -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com --upgrade
 ```
 
 ### Docker
@@ -254,11 +254,11 @@ df = ak.stock_zh_a_spot_em()
 
 ## 教程 / Tutorials
 
-1. [项目概览 / Overview](https://akshare.akfamily.xyz/introduction.html)
-2. [安装指导 / Installation](https://akshare.akfamily.xyz/installation.html)
-3. [使用教程 / Tutorial](https://akshare.akfamily.xyz/tutorial.html)
-4. [数据字典 / Data Dict](https://akshare.akfamily.xyz/data/index.html)
-5. [专题教程 / Subjects](https://akshare.akfamily.xyz/topic/index.html)
+1. [项目概览 / Overview](https://delon-xie.github.io/aksharepro/introduction.html)
+2. [安装指导 / Installation](https://delon-xie.github.io/aksharepro/installation.html)
+3. [使用教程 / Tutorial](https://delon-xie.github.io/aksharepro/tutorial.html)
+4. [数据字典 / Data Dict](https://delon-xie.github.io/aksharepro/data/index.html)
+5. [专题教程 / Subjects](https://delon-xie.github.io/aksharepro/topic/index.html)
 
 ## 贡献 / Contribution
 

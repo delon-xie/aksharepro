@@ -19,7 +19,7 @@ export default defineUserConfig({
       name: "AKShare Pro",
       url: "https://github.com/delon-xie/aksharepro",
     },
-    logo: "https://akshare.akfamily.xyz/_static/akshare_logo.jpg",
+    logo: "https://delon-xie.github.io/aksharepro/assets/images/akshare_logo.jpg",
     repo: "delon-xie/aksharepro",
     docsDir: "docs",
 
@@ -213,7 +213,7 @@ export default defineUserConfig({
 
     // 页脚
     footer:
-      'AKShare Pro — 基于 <a href="https://github.com/akfamily/akshare" target="_blank">AKShare</a> 增强 | <a href="https://akshare.akfamily.xyz/" target="_blank">官方文档</a>',
+      'AKShare Pro — 基于 <a href="https://github.com/delon-xie/aksharepro" target="_blank">AKShare Pro</a> | <a href="https://delon-xie.github.io/aksharepro/" target="_blank">文档</a>',
     displayFooter: true,
 
     // 页面 meta

@@ -2,7 +2,7 @@
 home: true
 icon: home
 title: 首页
-heroImage: https://akshare.akfamily.xyz/_static/akshare_logo.jpg
+heroImage: https://delon-xie.github.io/aksharepro/_static/akshare_logo.jpg
 heroText: AKShare Pro
 tagline: 开源财经数据接口库 · 增强版 — 浏览器伪装 / Cookie 注入 / 智能限频 / 断点续传
 actions:

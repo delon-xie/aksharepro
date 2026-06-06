@@ -1,6 +1,6 @@
 # AKShare 项目概览（帮助文件总结）
 
-> 来源：https://akshare.akfamily.xyz/introduction.html
+> 来源：https://delon-xie.github.io/aksharepro/introduction.html
 > 文档更新时间：2026-05-27
 
 ## 项目简介
