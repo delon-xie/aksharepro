@@ -5919,10 +5919,29 @@ from akshare.fund.fund_xq import (
 from .exceptions import (
     AkshareException,
     APIError,
+    CheckpointError,
     DataParsingError,
     InvalidParameterError,
     NetworkError,
     RateLimitError,
+)
+
+"""
+浏览器伪装 / Cookie / Session / 进度回调 / 限频 / 断点续传
+"""
+from akshare.utils.context import (
+    set_cookies,
+    get_cookies,
+    clear_cookies,
+    set_session,
+    get_session,
+    set_progress_callback,
+    get_progress_callback,
+    set_rate_limit,
+    set_checkpoint,
+    ProxyContext,
+    CookieContext,
+    SessionContext,
 )
 
 """

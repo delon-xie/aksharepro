@@ -1,3 +1,7 @@
+# AKShare Pro — 增强版开源财经数据接口库
+
+> 基于 [AKShare](https://github.com/akfamily/akshare)，新增 **浏览器级反爬伪装**、**Cookie/Session 注入**、**智能限频**、**断点续传** 等企业级能力。
+
 **资源分享**：对于想了解更多财经数据与量化投研的小伙伴，推荐一个专注于财经数据和量化研究的知识社区。
 该社区提供相关文档和视频学习资源，汇集了各类财经数据源和量化投研工具的使用经验。
 有兴趣深入学习的朋友可点此[了解更多](https://t.zsxq.com/ZCxUG)，也推荐大家关注微信公众号【数据科学实战】。
@@ -23,70 +27,104 @@
 [![](https://img.shields.io/github/issues/jindaxiang/akshare)](https://github.com/akfamily/akshare)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-## Overview
+---
 
-[AKShare](https://github.com/akfamily/akshare) requires Python(64 bit) 3.9 or higher and
-aims to simplify the process of fetching financial data.
+## ✨ Pro 增强特性
 
-**Write less, get more!**
+AKShare Pro 在核心库基础上进行了深度架构改造，**所有 500+ 接口自动受益，零代码修改**：
 
-- Documentation: [中文文档](https://akshare.akfamily.xyz/)
+| 特性 | 说明 |
+|------|------|
+| 🛡️ **浏览器级伪装** | Per-host 请求头模板，模拟 Chrome/Edge 最新浏览器指纹，覆盖东财、新浪、雪球、腾讯、同花顺等站点 |
+| 🍪 **Cookie/Session 注入** | `ak.set_cookies()` 注入浏览器登录态 Cookie，支持全局或 per-host 粒度 |
+| ⚡ **智能限频** | Per-host 独立限频策略（东财 1.5-3s、新浪 0.5-1.5s…），有效避免封 IP |
+| 🔄 **断点续传** | `ak.set_checkpoint()` 启用，分页数据获取中断后自动从断点恢复 |
+| 📊 **进度回调** | `ak.set_progress_callback()` 实时感知数据获取进度 |
+| 🔌 **向后兼容** | 所有新参数有默认值，现有 500+ 接口无需任何修改 |
 
-## Installation
+### 快速上手
 
-### General
+```python
+import akshare as ak
+
+# 1. 注入浏览器 Cookie（在浏览器登录后导出）
+ak.set_cookies({"xq_a_token": "xxx"}, host="xueqiu.com")
+
+# 2. 设置进度回调
+def on_progress(pct: int, msg: str):
+    print(f"[{pct}%] {msg}")
+ak.set_progress_callback(on_progress)
+
+# 3. 启用断点续传
+ak.set_checkpoint(True, directory="./checkpoints")
+
+# 4. 正常使用 —— 所有接口自动获得反爬伪装
+df = ak.stock_zh_a_hist(symbol="000001", period="daily")
+```
+
+### 架构概览
+
+```
+用户代码
+    ↓
+akshare.xxx()  (500+ 接口，无需修改)
+    ↓
+request_with_retry()  ← 改造核心
+    ↓
+BrowserSessionManager  ← 浏览器会话管理器
+    ├── 浏览器级请求头（per-host）
+    ├── Cookie / Session 注入
+    ├── 智能限频
+    ├── 断点续传
+    └── 进度回调
+```
+
+详细文档请参阅 [反爬增强指南](docs/akshare_help_summary.md#_18-浏览器伪装与反爬增强-aksharepro-扩展)。
+
+---
+
+## 概览 / Overview
+
+[AKShare](https://github.com/akfamily/akshare) 需要 Python(64位) 3.9 及以上版本，旨在简化财经数据获取流程。
+
+**一行代码，数据到手！**
+
+- 文档：[中文文档](https://akshare.akfamily.xyz/)
+
+## 安装 / Installation
+
+### 通用安装 / General
 
 ```shell
 pip install akshare --upgrade
 ```
 
-### China
+### 国内加速 / China
 
 ```shell
-pip install akshare -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com  --upgrade
+pip install akshare -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com --upgrade
 ```
-
-### PR
-
-Please check out [Documentation](https://akshare.akfamily.xyz/contributing.html) if you
-want to contribute to AKShare
 
 ### Docker
 
-#### Pull images
-
 ```shell
 docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:jupyter
-```
-
-#### Run Container
-
-```shell
 docker run -it registry.cn-shanghai.aliyuncs.com/akfamily/aktools:jupyter python
 ```
 
-#### Test
+## 使用示例 / Usage
+
+### 数据获取 / Data
 
 ```python
 import akshare as ak
 
-print(ak.__version__)
-```
-
-## Usage
-
-### Data
-
-Code:
-
-```python
-import akshare as ak
-
-stock_zh_a_hist_df = ak.stock_zh_a_hist(symbol="000001", period="daily", start_date="20170301", end_date='20231022', adjust="")
+stock_zh_a_hist_df = ak.stock_zh_a_hist(
+    symbol="000001", period="daily",
+    start_date="20170301", end_date="20231022", adjust=""
+)
 print(stock_zh_a_hist_df)
 ```
-
-Output:
 
 ```
       日期          开盘   收盘    最高  ...  振幅   涨跌幅  涨跌额  换手率
@@ -104,13 +142,11 @@ Output:
 [1615 rows x 11 columns]
 ```
 
-### Plot
-
-Code:
+### K 线绘图 / Plot
 
 ```python
 import akshare as ak
-import mplfinance as mpf  # Please install mplfinance as follows: pip install mplfinance
+import mplfinance as mpf  # pip install mplfinance
 
 stock_us_daily_df = ak.stock_us_daily(symbol="AAPL", adjust="qfq")
 stock_us_daily_df = stock_us_daily_df.set_index(["date"])
@@ -118,69 +154,146 @@ stock_us_daily_df = stock_us_daily_df["2020-04-01": "2020-04-29"]
 mpf.plot(stock_us_daily_df, type="candle", mav=(3, 6, 9), volume=True, show_nontrading=False)
 ```
 
-Output:
-
 ![KLine](https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/readme/home/AAPL_candle.png)
 
-## Features
+---
 
-- **Easy of use**: Just one line code to fetch the data;
-- **Extensible**: Easy to customize your own code with other application;
-- **Powerful**: Python ecosystem.
+## 🛡️ Pro 增强功能详解 / Pro Enhanced Features
 
-## Tutorials
+### 浏览器级反爬伪装 / Browser-Level Anti-Crawling
 
-1. [Overview](https://akshare.akfamily.xyz/introduction.html)
-2. [Installation](https://akshare.akfamily.xyz/installation.html)
-3. [Tutorial](https://akshare.akfamily.xyz/tutorial.html)
-4. [Data Dict](https://akshare.akfamily.xyz/data/index.html)
-5. [Subjects](https://akshare.akfamily.xyz/topic/index.html)
+自动根据请求 URL 匹配 Per-host 浏览器请求头（User-Agent、Referer、Origin 等），模拟 Chrome/Edge 最新版本：
 
-## Contribution
+```python
+# 无需配置，自动生效
+df = ak.stock_zh_a_spot_em()  # 东财 → 自动注入东财专属请求头
+```
 
-[AKShare](https://github.com/akfamily/akshare) is still under developing, feel free to open issues and pull requests:
+**支持的站点**：东方财富、新浪财经、雪球、腾讯财经、同花顺、巨潮资讯、中国外汇交易中心、上交所、深交所等。
 
-- Report or fix bugs
-- Require or publish interface
-- Write or fix documentation
-- Add test cases
+### Cookie / Session 注入 / Cookie & Session Injection
+
+用户在浏览器登录后，将 Cookie 导出并注入 AKShare：
+
+```python
+import akshare as ak
+
+# 全局 Cookie
+ak.set_cookies({"token": "abc123"})
+
+# Per-host Cookie（仅指定站点生效）
+ak.set_cookies({"xq_a_token": "xxx"}, host="xueqiu.com")
+
+# 自定义 Session
+import requests
+s = requests.Session()
+s.headers.update({"Authorization": "Bearer xxx"})
+ak.set_session(s)
+
+# 上下文管理器（临时生效）
+with ak.CookieContext({"xq_a_token": "xxx"}, host="xueqiu.com"):
+    df = ak.stock_xq(...)
+```
+
+### 智能限频 / Smart Rate Limiting
+
+每个站点独立的请求频率控制，有效避免触发反爬封禁：
+
+```python
+import akshare as ak
+
+# 自定义限频
+ak.set_rate_limit("eastmoney.com", min_delay=1.5, max_delay=3.0)
+ak.set_rate_limit("xueqiu.com", min_delay=0.8, max_delay=2.0)
+```
+
+| 站点 / Site | 默认最小延迟 | 默认最大延迟 |
+|-------------|------------|------------|
+| eastmoney.com | 1.5s | 3.0s |
+| sina.com.cn | 0.5s | 1.5s |
+| xueqiu.com | 0.8s | 2.0s |
+| 其他 / Others | 0.3s | 1.0s |
+
+### 断点续传 / Checkpoint & Resume
+
+分页数据获取中断后，再次运行自动从断点恢复：
+
+```python
+import akshare as ak
+
+ak.set_checkpoint(True, directory="./my_checkpoints")
+df = ak.stock_zh_a_spot_em()  # 中断后重新运行，自动恢复进度
+```
+
+### 进度回调 / Progress Callback
+
+```python
+import akshare as ak
+
+def on_progress(pct: int, msg: str):
+    print(f"[{pct}%] {msg}")
+
+ak.set_progress_callback(on_progress)
+df = ak.stock_zh_a_spot_em()
+# 输出示例:
+# [10%] 第一页完成，共 53 页
+# [25%] 已获取第 8/53 页，共 800 条
+# ...
+```
+
+---
+
+## 特性 / Features
+
+- **简单易用 / Easy of use**：一行代码获取数据；
+- **可扩展 / Extensible**：易于与其他应用集成定制；
+- **强大 / Powerful**：依托 Python 生态；
+- **反爬增强 / Anti-Crawling Enhanced**：浏览器级伪装 + 智能限频 + Cookie 注入；
+- **断点续传 / Checkpoint Resume**：大数据量分页获取中断后可恢复；
+- **向后兼容 / Backward Compatible**：500+ 接口零修改即用。
+
+## 教程 / Tutorials
+
+1. [项目概览 / Overview](https://akshare.akfamily.xyz/introduction.html)
+2. [安装指导 / Installation](https://akshare.akfamily.xyz/installation.html)
+3. [使用教程 / Tutorial](https://akshare.akfamily.xyz/tutorial.html)
+4. [数据字典 / Data Dict](https://akshare.akfamily.xyz/data/index.html)
+5. [专题教程 / Subjects](https://akshare.akfamily.xyz/topic/index.html)
+
+## 贡献 / Contribution
+
+[AKShare](https://github.com/akfamily/akshare) 仍在持续开发中，欢迎提交 Issue 和 Pull Request：
+
+- 报告或修复 Bug
+- 请求或新增数据接口
+- 编写或修正文档
+- 添加测试用例
 
 > Notice: We use [Ruff](https://github.com/astral-sh/ruff) to format the code
 
-## Statement
+## 声明 / Statement
 
-1. All data provided by [AKShare](https://github.com/akfamily/akshare) is just for academic research purpose;
-2. The data provided by [AKShare](https://github.com/akfamily/akshare) is for reference only and does not constitute any investment proposal;
-3. Any investor based on [AKShare](https://github.com/akfamily/akshare) research should pay more attention to data risk;
-4. [AKShare](https://github.com/akfamily/akshare) will insist on providing open-source financial data;
-5. Based on some uncontrollable factors, some data interfaces in [AKShare](https://github.com/akfamily/akshare) may be removed;
-6. Please follow the relevant open-source protocol used by [AKShare](https://github.com/akfamily/akshare);
-7. Provide HTTP API for the person who uses other program language: [AKTools](https://aktools.readthedocs.io/).
+1. [AKShare](https://github.com/akfamily/akshare) 提供的所有数据仅供学术研究和数据分析使用；
+2. [AKShare](https://github.com/akfamily/akshare) 提供的数据仅供参考，不构成任何投资建议；
+3. 基于 [AKShare](https://github.com/akfamily/akshare) 进行研究的投资者应关注数据风险；
+4. [AKShare](https://github.com/akfamily/akshare) 将持续坚持开源财经数据；
+5. 基于不可控因素，部分数据接口可能被移除；
+6. 请遵循 [AKShare](https://github.com/akfamily/akshare) 使用的相关开源协议；
+7. 为非 Python 用户提供 HTTP API：[AKTools](https://aktools.readthedocs.io/)。
 
-## Show your style
+## 徽章 / Badge
 
-Use the badge in your project's README.md:
+在您的项目 README 中使用徽章：
 
 ```markdown
 [![Data: akshare](https://img.shields.io/badge/Data%20Science-AKShare-green)](https://github.com/akfamily/akshare)
 ```
 
-Using the badge in README.rst:
-
-```
-.. image:: https://img.shields.io/badge/Data%20Science-AKShare-green
-    :target: https://github.com/akfamily/akshare
-```
-
-Looks like this:
-
 [![Data: akshare](https://img.shields.io/badge/Data%20Science-AKShare-green)](https://github.com/akfamily/akshare)
 
-## Citation
+## 引用 / Citation
 
-Please use this **bibtex** if you want to cite this repository in your publications:
-
-```markdown
+```bibtex
 @misc{akshare,
     author = {Albert King and Yaojie Zhang},
     title = {AKShare},
@@ -191,7 +304,7 @@ Please use this **bibtex** if you want to cite this repository in your publicati
 }
 ```
 
-## Acknowledgement
+## 致谢 / Acknowledgement
 
 Special thanks [FuShare](https://github.com/LowinLi/fushare) for the opportunity of learning from the project;
 
@@ -259,4 +372,4 @@ Thanks for the data provided by [思知网站](https://www.ownthink.com/);
 
 Thanks for the data provided by [Currencyscoop 网站](https://currencyscoop.com/);
 
-Thanks for the data provided by [新加坡交易所网站](https://www.sgx.com/zh-hans/research-education/derivatives);
+Thanks for the data provided by [新加坡交易所网站](https://www.sgx.com/zh-hans/research-education/derivatives).

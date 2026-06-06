@@ -41,3 +41,11 @@ class RateLimitError(AkshareException):
     """Raised when API rate limit is exceeded"""
 
     pass
+
+
+class CheckpointError(AkshareException):
+    """Raised when checkpoint/resume operations fail"""
+
+    def __init__(self, message, resume_key=None):
+        self.resume_key = resume_key
+        super().__init__(f"Checkpoint Error: {message} (Key: {resume_key})")

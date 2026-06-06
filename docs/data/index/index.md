@@ -1,3 +1,7 @@
+---
+title: AKShare 指数数据
+---
+
 ## [AKShare](https://github.com/akfamily/akshare) 指数数据
 
 ### A股股票指数

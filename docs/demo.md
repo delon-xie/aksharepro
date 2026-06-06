@@ -1,3 +1,7 @@
+---
+title: AKShare 策略示例
+---
+
 ## [AKShare](https://github.com/akfamily/akshare) 策略示例
 
 本策略示例文档的主要目的是为了方便的展示 [AKShare](https://github.com/akfamily/akshare) 的数据接口
