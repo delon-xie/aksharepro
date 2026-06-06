@@ -6,14 +6,12 @@ Desc: HTTP 请求工具函数
       进度回调、断点续传、智能限频
 """
 
-import os
 import pickle
 import random
 import time
-from typing import Callable, Dict, Optional, Tuple
+from typing import Callable, Dict, Tuple
 
 import requests
-from requests.adapters import HTTPAdapter
 
 
 def request_with_retry(

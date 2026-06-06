@@ -6,9 +6,8 @@ Desc: 核心请求入口（增强版）
 """
 
 import time
-from typing import Callable, Dict, Optional
+from typing import Callable, Dict
 
-import requests
 from requests.exceptions import RequestException
 
 from akshare.exceptions import NetworkError, APIError, RateLimitError, DataParsingError

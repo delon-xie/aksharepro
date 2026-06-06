@@ -19,14 +19,15 @@ if _PROJECT_ROOT not in sys.path:
 
 # ── 阻止 akshare.__init__.py 触发大量导入 ───────────────────────
 # 预注册一个空的 akshare 包模块
-import types
+import types  # noqa: E402
+
 _akshare_pkg = types.ModuleType("akshare")
 _akshare_pkg.__path__ = [os.path.join(_PROJECT_ROOT, "akshare")]
 _akshare_pkg.__package__ = "akshare"
 sys.modules["akshare"] = _akshare_pkg
 
 # ── 被测模块（子包直接导入，不触发 __init__.py）─────────────────
-import importlib
+import importlib  # noqa: E402
 
 # exceptions
 _exc_spec = importlib.util.spec_from_file_location(
@@ -101,8 +102,8 @@ HOST_HEADERS = _sess_mod.HOST_HEADERS
 
 CheckpointError = _exc_mod.CheckpointError
 
-import pytest
-import requests
+import pytest  # noqa: E402
+import requests  # noqa: E402
 
 
 # ── Fixture: 每个测试前重置单例状态 ─────────────────────────────
@@ -159,9 +160,11 @@ class TestAkshareConfig:
         assert get_session() is None
 
     def test_set_get_progress_callback(self):
-        cb = lambda pct, msg: None
-        set_progress_callback(cb)
-        assert get_progress_callback() is cb
+        def _noop_cb(pct, msg):
+            pass
+
+        set_progress_callback(_noop_cb)
+        assert get_progress_callback() is _noop_cb
         set_progress_callback(None)
         assert get_progress_callback() is None
 
