@@ -6,8 +6,12 @@ on:
     tags:
       - 'release-v*.*.*'
 
+permissions:
+  id-token: write   # PyPI Trusted Publishing (OIDC) 必须
+  contents: write   # GitHub Release 必须
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,20 +22,48 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
+      - name: Install build tools
         run: |
           python -m pip install --upgrade pip
-          pip install build twine
+          pip install build
 
-      - name: Build and publish package
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: |
-          python -m build
-          twine upload dist/*
+      - name: Build package
+        run: python -m build
 
-      - name: Create GitHub release
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/*
+
+  publish-pypi:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/akshare
+    permissions:
+      id-token: write   # PyPI OIDC
+    steps:
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    needs: publish-pypi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          generate_release_notes: true
