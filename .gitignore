@@ -84,5 +84,7 @@ Thumbs.db
 # Documentation
 docs/build/
 docs/_build/
-docs/.vuepress/
+docs/.vuepress/.temp/
+docs/.vuepress/dist/
+docs/.vuepress/.cache/
 node_modules/
