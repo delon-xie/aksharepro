@@ -20,21 +20,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0    # 全量拉取，用于 git 日期插件
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build VuePress site
-        run: npm run docs:build
+        # 大文件（stock.md 25K+行、macro.md 12K+行）构建需要更大堆内存
+        run: NODE_OPTIONS="--max-old-space-size=8192" npm run docs:build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
