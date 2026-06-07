@@ -3270,6 +3270,10 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 1.18.62 fix: fix stock_market_activity_legu interface
 1.18.63 fix: fix stock_a_high_low_statistics interface
 1.18.64 fix: fix stock_buffett_index_lg interface
+1.18.65 feat: 反爬增强与 CI 搭建
+1.18.66 feat: 适配 PyPI 发布，包名改为 aksharepro
+1.18.67 feat: 支持 Python 3.9+ 运行环境
+1.18.68 feat: 文档站点迁移至 GitHub Pages + ruff 代码规范适配
 """
 
 from akshare._version import __version__

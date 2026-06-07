@@ -89,6 +89,33 @@
 
 ## 更新说明详情
 
+1.18.68 feat: 文档站点迁移至 GitHub Pages + ruff 代码规范适配
+
+	1. 文档站点通过 GitHub Actions 自动部署至 GitHub Pages
+	2. 修复 ruff E402/E731/F401 代码规范问题
+	3. CI 矩阵扩展至 Python 3.9-3.14，添加 fail-fast: false
+
+1.18.67 feat: 支持 Python 3.9+ 运行环境
+
+	1. CI 测试矩阵新增 Python 3.9、3.10 版本
+	2. ruff 静态检查目标版本设为 py39，确保语法兼容性
+
+1.18.66 feat: 适配 PyPI 发布，包名改为 aksharepro
+
+	1. 发布工作流升级为 PyPI Trusted Publishing (OIDC)
+	2. 包名从 akshare 改为 aksharepro，解决 PyPI 包名冲突
+	3. 文档链接统一替换为 GitHub Pages 地址
+
+1.18.65 feat: 反爬增强与 CI 搭建
+
+	1. 新增 BrowserSessionManager 浏览器级反爬伪装（Per-host 请求头）
+	2. 新增 Cookie/Session 注入（ak.set_cookies / ak.set_session）
+	3. 新增智能限频（Per-host 独立限频策略）
+	4. 新增断点续传（ak.set_checkpoint，分页数据中断后自动恢复）
+	5. 新增进度回调（ak.set_progress_callback）
+	6. 搭建 GitHub Actions CI/CD 工作流
+	7. 所有新功能保持与现有 500+ 接口完全向后兼容
+
 1.18.64 fix: fix stock_buffett_index_lg interface
 
 	1. 修复 stock_buffett_index_lg 接口
